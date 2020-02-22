@@ -1,0 +1,124 @@
+import java.util.*;
+public class GameOfLife2
+{
+    public static void main(String[] args)
+    {
+        Scanner time = new Scanner (System.in);
+        Random gen = new Random();
+        int M = 20, N = 20;
+        int T;
+        int e=0;
+        int b;
+       
+        int[][] grid = new int [20][20];
+        int[] [] orginalGrid = new int [20][20];
+        boolean game= true;
+          int y;
+          int z;
+          int cells = (gen.nextInt(99)+1);
+          for(int i = 0; i<cells;i++)
+          {
+              y = gen.nextInt(18+1);
+              z = gen.nextInt(18+1);
+              orginalGrid[y][z] = 1;
+              }
+                                  for (int i = 0; i < M; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+               grid [i][j] = orginalGrid[i][j];
+            }
+         
+        }  
+       
+ 
+        System.out.println("Original Generation");
+        for (int i = 0; i < M; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                if (orginalGrid[i][j] == 0)
+                    System.out.print(".");
+                else
+                    System.out.print("*");
+            }
+            System.out.println();
+        }
+        System.out.println();
+       
+      while(game == true){
+       
+       System.out.println("Pick a generation");
+        b = time.nextInt();
+         while ( game==true){
+        nextGeneration(grid, M, N);
+        e++;
+        if (e==b){
+             game = false;
+        }
+      }
+     
+      }
+    }
+ 
+   
+    static void nextGeneration(int grid[][], int M, int N)
+    {
+        int[][] future = new int[M][N];
+ 
+       
+        for (int l = 1; l < M - 1; l++)
+        {
+            for (int m = 1; m < N - 1; m++)
+            {
+               
+                int aliveNeighbours = 0;
+                for (int i = -1; i <= 1; i++)
+                    for (int j = -1; j <= 1; j++)
+                        aliveNeighbours += grid[l + i][m + j];
+ 
+             
+                aliveNeighbours -= grid[l][m];
+ 
+               
+                if ((grid[l][m] == 1) && (aliveNeighbours < 2))
+                    future[l][m] = 0;
+ 
+               
+                else if ((grid[l][m] == 1) && (aliveNeighbours > 3))
+                    future[l][m] = 0;
+ 
+               
+                else if ((grid[l][m] == 0) && (aliveNeighbours == 3))
+                    future[l][m] = 1;
+ 
+               
+                else
+                    future[l][m] = grid[l][m];
+            }
+        }
+ 
+        System.out.println("Next Generation");
+        for (int i = 0; i < M; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                if (future[i][j] == 0)
+                    System.out.print(".");
+                else
+                    System.out.print("*");
+            }
+            System.out.println();
+        }
+                    for (int i = 0; i < M; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+               grid [i][j] = future[i][j];
+            }
+         
+        }  
+       
+       
+    }
+} 
